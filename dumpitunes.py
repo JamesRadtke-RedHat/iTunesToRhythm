@@ -96,14 +96,12 @@ class iTunesSong(BaseSong):
 			newdateaddedKeyNode = libxml2.newNode("key")
 			self.xmlNode.addChild(newdateaddedKeyNode)
 			newdateaddedKeyNode.setContent("Date Added")
-			dateaddedValueNode = libxml2.newNode("first-seen")
+			dateaddedValueNode = libxml2.newNode("date")
 			newdateaddedKeyNode.addSibling(dateaddedValueNode)
 		else:
 			dateaddedValueNode = dateaddedValueNodes[0]
 
-		dateaddedValueNode.setContent(str(dateadded))
-
-
+		dateaddedValueNode.setContent(str(time.strftime("%Y-%m-%dT%H:%M:%SZ", time.localtime(dateadded))))
 
 def main(argv):
 	location = argv[1]
