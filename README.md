@@ -55,7 +55,8 @@ Options:
   -l, --fastandloose  ignore differences in file names when a file size match is made against a single song. Will not resolve multiple matches
   --noplaycounts  do not update play counts
   --noratings  do not update ratings
-  --dateadded  import added date from iTunes to Rhytmbox (Linux only)
+  --twoway  sync up the two files, giving precedence to the items with the higher playcount
+  --dateadded  update dates (only iTunes to Rhythmbox on Linux)
 
   Amarok connection options:
    Options for connecting to an Amarok MySQL remote database

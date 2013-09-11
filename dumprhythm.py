@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 #
 #Copyright @ 2010 Douglas Esanbock
+#Modifications to import "Date Added" Copyright @ September 2013 Edgar Salgado
 #iTunesToRhythm is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation; either version 3 of the License, or
@@ -29,6 +30,8 @@ class RhythmSong(BaseSong):
 		self.filePath = self.xmlNode.xpathEval("location")[0].content
 		self.playcount = self.xmlNode.xpathEval("play-count")
 		self.rating = self.xmlNode.xpathEval("rating")
+		self.dateadded = self.xmlNode.xpathEval("first-seen")
+
 
 		if len(self.playcount) == 0:
 			self.playcount = 0
@@ -40,6 +43,10 @@ class RhythmSong(BaseSong):
 		else:
 			self.rating = int(self.rating[0].content) * 20
 
+		if len(self.dateadded) == 0:
+			self.dateadded = 0
+		else:
+			self.dateadded = int(self.dateadded[0].content)
 
 	def setRating(self, rating):
 		ratingNode = self.xmlNode.xpathEval("rating")
@@ -58,6 +65,15 @@ class RhythmSong(BaseSong):
 			self.xmlNode.addChild(newNode)
 		else:
 			playcountNode[0].setContent(str(playcount))
+
+	def setDateAdded(self, dateadded):
+		dateaddedNode = self.xmlNode.xpathEval("first-seen")
+		if len(dateaddedNode) == 0:
+			newNode = libxml2.newNode("first-seen")
+			newNode.setContent(str(dateadded))
+			self.xmlNode.addChild(newNode)
+		else:
+			dateaddedNode[0].setContent(str(dateadded))
 
 def main(argv):
 	location = argv[1]
