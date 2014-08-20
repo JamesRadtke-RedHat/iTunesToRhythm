@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #
 #Copyright @ 2010 Douglas Esanbock
-#Modifications to import "Date Added" Copyright @ September 2013 Edgar Salgado
 #iTunesToRhythm is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation; either version 3 of the License, or
@@ -64,6 +63,7 @@ class iTunesSong(BaseSong):
 		#http://www.epochconverter.com/
 			self.dateadded = int(time.mktime(time.strptime(self.dateadded[0].content, '%Y-%m-%dT%H:%M:%SZ')))
 
+
 	def setRating(self,  rating):
 		ratingValueNodes = self.xmlNode.xpathEval("integer[preceding-sibling::* = 'Rating'][1]")
 		if len(ratingValueNodes) == 0:
@@ -96,20 +96,20 @@ class iTunesSong(BaseSong):
 			newdateaddedKeyNode = libxml2.newNode("key")
 			self.xmlNode.addChild(newdateaddedKeyNode)
 			newdateaddedKeyNode.setContent("Date Added")
-			dateaddedValueNode = libxml2.newNode("date")
+			dateaddedValueNode = libxml2.newNode("first-seen")
 			newdateaddedKeyNode.addSibling(dateaddedValueNode)
 		else:
 			dateaddedValueNode = dateaddedValueNodes[0]
 
-		dateaddedValueNode.setContent(str(time.strftime("%Y-%m-%dT%H:%M:%SZ", time.localtime(dateadded))))
+		dateaddedValueNode.setContent(str(dateadded))
 
 def main(argv):
 	location = argv[1]
-	print "Reading iTunes library from " + location
+	print( "Reading iTunes library from " + location )
 	parser = iTunesLibraryParser(location)
 	allSongs = parser.getSongs()
 	for song in allSongs:
-		print song.artist + " - " + song.album + " - " + song.title + " - " + song.size
+		print( song.artist + " - " + song.album + " - " + song.title + " - " + song.size )
 
 class iTunesLibraryParser(BaseLibraryParser):
 	def getSongs(self):

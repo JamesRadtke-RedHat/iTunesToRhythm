@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 #
 #Copyright @ 2010 Douglas Esanbock
-#Modifications to import "Date Added" Copyright @ September 2013 Edgar Salgado
 #iTunesToRhythm is free software; you can redistribute it and/or modify
 #it under the terms of the GNU General Public License as published by
 #the Free Software Foundation; either version 3 of the License, or
@@ -30,8 +29,7 @@ class RhythmSong(BaseSong):
 		self.filePath = self.xmlNode.xpathEval("location")[0].content
 		self.playcount = self.xmlNode.xpathEval("play-count")
 		self.rating = self.xmlNode.xpathEval("rating")
-		self.dateadded = self.xmlNode.xpathEval("first-seen")
-
+		self.dateadded = self.xmlNode.xpathEval("first-seen")[0].content
 
 		if len(self.playcount) == 0:
 			self.playcount = 0
@@ -46,7 +44,8 @@ class RhythmSong(BaseSong):
 		if len(self.dateadded) == 0:
 			self.dateadded = 0
 		else:
-			self.dateadded = int(self.dateadded[0].content)
+			self.dateadded = int(self.dateadded)
+
 
 	def setRating(self, rating):
 		ratingNode = self.xmlNode.xpathEval("rating")
@@ -55,7 +54,7 @@ class RhythmSong(BaseSong):
 			newNode.setContent(str(rating / 20))
 			self.xmlNode.addChild(newNode)
 		else:
-			ratingNode[0].setContent(str(rating / 20))
+			ratingNode[0].text = str(rating / 20)
 
 	def setPlaycount(self, playcount):
 		playcountNode = self.xmlNode.xpathEval("play-count")
@@ -77,19 +76,22 @@ class RhythmSong(BaseSong):
 
 def main(argv):
 	location = argv[1]
-	print "Reading database from " + location
+	print( "Reading database from " + location )
 	parser = RhythmLibraryParser(location)
 	allSongs = parser.getSongs()
 	for song in allSongs:
-		print song.artist + " - " + song.album + " - " + song.title + " - " + song.size
+		try:
+			print( song.artist + " - " + song.album + " - " + song.title + " - " + song.size )
+		except UnicodeEncodeError as charError:
+			print( "*** UNICODE *** " )
 
 class RhythmLibraryParser(BaseLibraryParser):
 	def getSongs(self):
-		allSongNodes = self.xpathContext.xpathEval("//entry[@type='song']")
+		allSongNodes = self.doc.xpathEval("//entry[@type='song']")
 		return [RhythmSong(s) for s in allSongNodes]
 
 	def findSongBySize(self, size):
-		matches = self.xpathContext.xpathEval("//entry[@type='song' and file-size = '" + str(size)  + "']")
+		matches = self.doc.xpath("//entry[@type='song' and file-size = '" + str(size)  + "']")
 		matchingsongs = []
 		for match in matches:
 			song = RhythmSong(match)

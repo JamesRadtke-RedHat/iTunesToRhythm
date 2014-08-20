@@ -30,9 +30,11 @@ class BaseSong(object):
 
 class BaseLibraryParser(object):
 	def __init__(self, location):
+		print( "loading file " + location );
 		self.location = location
 		self.doc = libxml2.parseFile(location)
 		self.xpathContext = self.doc.xpathNewContext()
+		print( "file loaded " );
 
 	#@abstractmethod
 	def getSongs(self):
