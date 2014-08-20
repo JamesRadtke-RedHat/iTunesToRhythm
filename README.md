@@ -4,6 +4,7 @@ iTunesToRhythm
 This little piece of insanity is a tool that transfers your ratings and playcounts between various players (iTunes, RhythmBox, and Amarok). Supports two-way synchronization in iTunes Mac, RhythmBox, Amarok, and Windows Media Player
 
 Original source from [here](http://www.esanbock.com/iTunesToRhythm/iTunesToRhythm.html)
+Merged back to the original author's repo: https://github.com/esanbock/ITunesToRhythm
 
 I modified it import songs' Added Dates from iTunes to Rhythmbox (only from Linux), just use the option ````--dateadded````
  
