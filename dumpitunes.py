@@ -101,7 +101,7 @@ class iTunesSong(BaseSong):
 		else:
 			dateaddedValueNode = dateaddedValueNodes[0]
 
-		dateaddedValueNode.setContent(str(dateadded))
+		dateaddedValueNode.setContent(time.strftime('%Y-%m-%dT%H:%M:%SZ', time.localtime(dateadded)))
 
 def main(argv):
 	location = argv[1]
