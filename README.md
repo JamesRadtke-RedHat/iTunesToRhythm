@@ -34,6 +34,8 @@ iTunesToRhythm.py -w -a iTunes\ Music\ Library.xml ~/.local/share/rhythmbox/rhyt
 
 Note: if running this tool on a Mac, iTunes is directly supported by using "itunes" as the source or destination. One could for instance, import from amarok directly into ituns on a Mac. On Windows, Windows Media Player is supported by using "wmp" as the source or destination.
 
+Note 2: after updating iTunes Music Library.xml, one needs to re-create iTunes library and playlists. See http://support.apple.com/kb/HT1451 for a howto.
+
 <h2>Examples:</h2>
 
 Copy statistics from RhythmBox to an Amarok mysql database, excluding ratings:
